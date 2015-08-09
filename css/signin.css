@@ -1,0 +1,119 @@
+
+body {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  /*background-color: #eee;*/
+  background-image: url("../images/footer_lodyas.png");)
+  background-repeat: repeat-y, repeat-x;
+  /*position: relative;*/
+}
+
+.form-signin-heading {
+  font-family: 'Pacifico', 'sans-serif';
+}
+
+.container {
+  background-color: #ffffff;
+  box-shadow: 0px 0px 0px 3px rgba(255,255,255,0.75);
+  border-radius: 10px 10px 10px 10px;
+}
+
+#login-box {
+  width: 50%;
+  max-width: 300px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+}
+
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+  margin-bottom: 10px;
+}
+.form-signin .checkbox {
+  font-weight: normal;
+}
+.form-signin .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+#overlay {
+     visibility: hidden;
+     position: absolute;
+     left: 0;
+     right: 0;
+     margin: 0 auto;
+     width:30%;
+     min-width: 300px;
+     font-size: 14px;
+}
+#overlay div {
+    width: 23%;
+    margin: 100px auto;
+    padding:15px;
+}
+
+#overlay h1 {
+     font-family: 'Merienda', cursive;
+     font-size: large;
+     color: white;
+}
+
+h2 {
+  font-family: 'Merienda', cursive;
+  color: white;
+  font-size: x-large;
+  font-weight: bolder;
+  text-align: center;
+  line-height: 120%;
+}
+
+#overlay btn-close{
+  color: $gray-light;
+  font-size: largest;
+  text-decoration: none;
+  position: absolute;
+  text-transform: uppercase;
+  
+  &:hover{
+     color: darken($gray-light, 10%);
+  }
+  
+}
+
+a.btn-close {
+  text-align: center;
+   border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  color: #2b689c;
+  font-weight: bold;
+  margin-bottom: 2em;
+  text-transform: uppercase;
+  width: 100%;
+}

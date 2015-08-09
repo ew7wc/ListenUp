@@ -1,0 +1,137 @@
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE HTML>
+<head>
+	<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+	<link rel="icon" href="images/favicon.ico" type="image/x-icon">		
+	<title>Your Playlists</title>
+
+
+	<link href="css/style.css" rel="stylesheet" type="text/css"  media="all" />
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+	<!--JQUERY stuff -->
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+	<script src="http://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+
+
+	<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			$.ajax({
+				url: "http://plato.cs.virginia.edu/~ams5da/ListenUp/php/getPlaylists.php",	
+				success: function(data){
+					$('#displayPlaylists').html(data);
+				}
+			})
+			$.ajax({
+				url: "http://plato.cs.virginia.edu/~ams5da/ListenUp/php/getYourCreatedPlaylists.php",	
+				success: function(data){
+					$('#displayYourCreatedPlaylists').html(data);
+				}
+			})
+		});
+	</script>
+	<div class="right-content-heading-left">
+		<title>Listen Up!</title>
+	</div>
+</head>
+<body>
+	<!---start-wrap---->
+	<!---start-header---->
+	<div class="header">
+		<div class="wrap">
+			<!---start-logo---->
+			<div class="logo">
+				<a href="Home.html"><img src="images/logo.png" title="logo" /></a>
+			</div>
+			<!---End-logo---->
+			<!---start-top-menu-search---->
+			<div class="top-menu">
+				<div class="top-nav">
+					<ul>
+						<li><a href="#">Playlists</a></li>
+						<li><a href="likes.html">Favorites</a></li>
+						<li><a href="#">Songs</a></li>
+						<li><a href="categories.html">Artists</a></li>
+						<li><a href="contact.html">Albums</a></li>
+						<li><a href="http://plato.cs.virginia.edu/~ams5da/ListenUp/php/logout.php">Log Out</a></li>
+					</ul>
+				</div>
+				<div class="search">
+					<form>
+						<input type="text" class="textbox" value="Search:" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search';}">
+						<input type="submit" value=" " />
+					</form>
+				</div>
+				<div class="clear"> </div>
+			</div>
+			<div class="clear"> </div>
+			<!---End-top-menu-search---->
+		</div>
+		<!---End-header---->
+	</div>
+	<div class="clear"> </div>
+	<!---start-content---->
+	<div class="main-content">
+		<div class="wrap">
+			<div class="left-sidebar">
+				<div class="right-content-heading">
+					<div class="right-content-heading-left">
+						<h3>Your Playlists</h3>
+						<button id="createPlaylist" class="btn btn-default"><i class="fa fa-plus"></i> Create a new playlist</button>
+					</div>
+					<div class="clear"> </div>
+				</div>
+				<div class="content-grids">
+					
+					<div class="playlists" id="displayYourCreatedPlaylists"></div>
+					<div class="clear"> </div>
+					
+				</div>
+				
+			</div>
+			<div class="right-content">
+				<div class="right-content-heading">
+					<div class="right-content-heading-left">
+						<h3>Subscribed Playlists</h3>
+						<button id="editSubscribed" class="btn btn-default"><i class="fa fa-search"></i></i> Discover more playlists!</button>
+					</div>
+					
+					<div class="clear"> </div>
+				</div>
+				<div class="content-grids">
+					
+					<div class="playlists" id="displayPlaylists"></div>
+					<div class="clear"> </div>
+					
+				</div>
+			</div>
+			<div class="clear"> </div>
+		</div>
+	</div>
+	<div class="clear"> </div>
+	<!---End-content---->
+	<!---start-copy-right---->
+	<div class="copy-right">
+		<p>Design by <a href="http://w3layouts.com/">W3layouts</a></p>
+	</div>
+	<!---End-copy-right---->
+	<!---End-wrap---->
+</body>
+</html>
+

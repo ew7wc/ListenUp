@@ -1,0 +1,123 @@
+
+<!DOCTYPE HTML>
+<head>
+
+	<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+	<link rel="icon" href="images/favicon.ico" type="image/x-icon">		
+	<title>Administrator Page</title>
+
+
+	<link href="css/style.css" rel="stylesheet" type="text/css"  media="all" />
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,800,700' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+
+	<!--JQUERY stuff -->
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+	<script src="http://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+
+	<script src="js/jquery.rdio.js"></script>
+	<script src="js/token.js"></script>
+	<script src="js/player.js" script type="text/javascript"></script>
+
+	<script>
+		$.ajax({
+			url: "http://plato.cs.virginia.edu/~ams5da/ListenUp/php/checkLogin.php",
+			async: false,
+			success: function(data){
+				if(data == "Login is User"){
+					window.location.href = "Home.html";
+				}
+				else if(data == "Not Logged In"){
+					window.location.href = "index.html";
+				}
+			}
+		})
+		
+	</script>
+
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+	<script>
+		function getSongsData(){
+			window.open("http://plato.cs.virginia.edu/~ams5da/ListenUp/exportSongsData.php");
+		}
+		function getPlaylistsData(){
+			window.open("http://plato.cs.virginia.edu/~ams5da/ListenUp/exportPlaylistsData.php");
+		}
+		function getSongsArtistsAlbumsData(){
+			window.open("http://plato.cs.virginia.edu/~ams5da/ListenUp/exportSongsArtistsAlbumsData.php");
+		}
+	</script>
+
+	<div class="right-content-heading-left">
+		<title>Listen Up!</title>
+	</div>
+</head>
+<body>
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="admin.html">Welcome to Listen Up!</a>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li><a href="admin.html">All Songs</a></li>
+					<li><a href="adminPlaylists.html">All Playlists</a></li>
+					<li class="active"><a href="adminExport.html">Export Data<span class="sr-only">(current)</span></a></li>				
+				</ul>
+				<!-- <form class="navbar-form navbar-right" role="search">
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="Search for songs">
+					</div>
+					<button type="submit" class="btn btn-default">Enter</button>
+				</form> -->
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="http://plato.cs.virginia.edu/~ams5da/ListenUp/php/logout.php">Log Out</a></li>
+				</ul>
+			</div><!-- /.navbar-collapse -->
+		</div><!-- /.container-fluid -->
+	</nav>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+
+				<h1 class="headers">Export Data Options</h1>
+				<br>
+				<br>
+				<button class="btn btn-default" onclick="getSongsData()">Export JSON Songs Data</button><br><br><br>
+
+				<button class="btn btn-default" onclick="getSongsArtistsAlbumsData()">Export JSON Song-Artist-Album Data</button><br><br><br>
+
+				<button class="btn btn-default" onclick="getPlaylistsData()">Export JSON Playlist Data</button>
+
+				
+
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+

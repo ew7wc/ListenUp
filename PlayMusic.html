@@ -1,0 +1,196 @@
+<!DOCTYPE HTML>
+<head>
+	<title>Playlist Content</title>
+	
+	<!--JQUERY stuff -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+	<script src="http://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+
+	<script src="js/jquery.rdio.js"></script>
+	<script src="js/token.js"></script>
+	<script src="js/player.js" script type="text/javascript"></script>
+
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,800,700' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+	<script>
+		$.ajax({
+			url: "http://plato.cs.virginia.edu/~ams5da/ListenUp/php/checkLogin.php",
+			async: false,
+			success: function(data){
+				if(data == "Not Logged In"){
+					window.location.href = "index.html";
+				}
+			}
+		})
+
+	</script>
+	
+	<!--FAV ICON-->
+	<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+	<link rel="icon" href="images/favicon.ico" type="image/x-icon">	
+
+	<!--CSS -->
+	<link href="css/style.css" rel="stylesheet" type="text/css"  media="all" />
+	<link href="css/iconStyling.css" rel="stylesheet" type="text/css"/>
+	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="stylesheets/global.css">
+
+	
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<script>
+		var playlistName = localStorage.getItem('playlist_name');
+
+		$(document).ready(function() {
+			$.ajax({
+				url: "http://plato.cs.virginia.edu/~ams5da/ListenUp/php/getSongs.php",
+				data: {playlistID: localStorage.getItem('playlist_ID')},
+				success: function(data){
+					$('#displaySongs').html(data);
+					$('#p_name').html(playlistName);
+				}
+			})
+		});
+		
+	</script>
+	<script type = "text/javascript"> 
+		function play(sender) {
+			var songID = sender.parentNode.getAttribute('id');
+			//window.alert("Clicked on: " + songID);
+			$('#api').rdio().play(songID); 
+		}
+
+		function likeSong(sender, songName) {
+			//window.alert("Clicked!");
+			var songID = sender.parentNode.getAttribute('id');
+			//window.alert(songName + songID);
+			$.ajax({
+				url: "http://plato.cs.virginia.edu/~ams5da/ListenUp/php/addSongToLikes.php",
+				type: "GET",
+				data: {songID: songID,
+					songName: songName},
+					success: function(data){
+						//alert('Added ' + songName + ' to favs list!');
+						 $(".alert").removeClass("in").show();
+						 $(".alert").delay(200).addClass("in").fadeOut(5000);
+					}
+				})
+		}
+	</script>
+
+</head>
+<body>
+	<!---start-wrap-->
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="http://plato.cs.virginia.edu/~ams5da/ListenUp/Home.html">Welcome to Listen Up!</a>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="Home.html">Playlists<span class="sr-only">(current)</span></a></li>
+					<li><a href="likes.html">Liked Songs</a></li>
+					<li><a href="trendingArtists.html">Trending Artists</a></li>
+					<script>
+						$.ajax({
+							url: "http://plato.cs.virginia.edu/~ams5da/ListenUp/php/checkLogin.php",
+							success: function(data){
+								if(data == "Login is Admin"){
+									$('ul[class="nav navbar-nav"] li').hide();
+								}
+							}
+						})
+					</script>					
+				</ul>
+				<!-- <form class="navbar-form navbar-right" role="search">
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="Search Songs & Artists">
+					</div>
+					<button type="submit" class="btn btn-default">Enter</button>
+				</form> -->
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="http://plato.cs.virginia.edu/~ams5da/ListenUp/php/logout.php">Log Out</a></li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="#">Your Account</a></li>
+							<li><a href="#">Settings</a></li>
+							<li class="divider"></li>
+							<li><a href="#">FAQ</a></li>
+							<li><a href="#">About Listen Up!</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div><!-- /.navbar-collapse -->
+		</div><!-- /.container-fluid -->
+	</nav>
+	
+	<div class="span pull-right">
+		<div class="alert alert-success fade">
+			<strong>Alert!</strong> Song added to favorites!
+		</div>
+	</div>
+
+	<div class="container">
+		<div class="row">
+			<!---start-content-->
+			<div class="col-md-5 col-md-offset-1">
+				<h1 id="p_name" class = "headers">Playlist</h1>
+				<br>
+				<ul class="list-group">
+					<div class="song" id="displaySongs"></div>
+				</ul>
+
+			</div>
+			<div class="col-md-5" align="center">
+				
+				<h1 class="headers">Sample 30 second tracks</h1>
+				<div id="api"></div>
+				<img id="art" src="images/default-album-artwork.png" height="200" width="200">
+				<div>
+					<div>
+						<span style="display:inline-block;width:200px;border:1px solid black;">
+							<span id="position" style="display:inline-block;background-color:rgb(222, 217, 210)">&nbsp;</span>
+						</span>
+					</div>
+					
+					<div class="playControls btn-group">
+						<button id="play" class="btn btn-default"><i class="fa fa-play"></i></button>
+						<button id="pause" class="btn btn-default"><i class="fa fa-pause"></i></button>
+						<button id="stop" class="btn btn-default"><i class="fa fa-stop"></i></button>
+					</div>
+					<h3 class="normText">TRACK: <span id="track"></span></h3>
+					<h3 class="normText">ALBUM: <span id="album"></span></h3>
+					<h3 class="normText">ARTIST: <span id="artist"></span></h3>
+					
+				</div>
+
+			</div>
+		</div>
+	</div>
+	
+
+
+</body>
+
+</html>
+

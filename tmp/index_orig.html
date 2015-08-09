@@ -1,0 +1,144 @@
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE HTML>
+<head>
+	<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+	<link rel="icon" href="images/favicon.ico" type="image/x-icon">		
+	<title>Welcome to Listen Up</title>
+
+	!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+	<link href="css/style.css" rel="stylesheet" type="text/css"  media="all" />
+
+	<!--JQUERY stuff -->
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+	<script src="http://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+	<script>
+		function checkForm(input){
+			if(input == "register"){
+				var a = ["username", "name", "email", "password"];
+				var x = document.forms["registerForm"];
+			}
+			else if (input == "login"){
+				var a = ["username", "password"];
+				var x = document.forms["loginForm"];					
+			}
+
+			for(var i = 0; i < a.length; i++){
+				var field = a[i];
+				var value = x[field].value;
+				if(value == null || value == ""){
+					alert("All fields must be filled");
+					return false;
+				}
+				if(value.length <= 3){
+					alert("Please enter a value longer than 3 characters.");
+					return false;
+				}
+				if(value.indexOf("'") > -1 || value.indexOf("/") > -1 || value.indexOf(";") > -1 ||
+					value.indexOf("--") > -1 || value.indexOf("xp_") > -1 || value.indexOf("*") > -1){
+					alert("You may not use the following characters: ', /, ;, *, --, xp_");
+					return false;
+				}
+			}
+		}
+
+		function overlay() {
+			el = document.getElementById("overlay");
+			el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
+			document.getElementById("registerForm").reset();
+		}
+	</script>
+	<div class="right-content-heading-left">
+		<title>Listen Up!</title>
+	</div>
+</head>
+
+
+<body>
+	<!---start-wrap---->
+	<!---start-header---->
+	<div class="header">
+		<div class="wrap">
+			<!---start-logo---->
+			<div class="logo">
+				<a href="index.html"><img src="images/logo.png" title="logo" /></a>
+			</div>
+			<!---End-logo---->
+			<div class="clear"> </div>
+			<!---End-top-menu-search---->
+		</div>
+		<!---End-header---->
+	</div>
+	<div class="clear"> </div>
+	<!---start-content---->
+	<div class="main-content">
+		<div id="overlay">
+			<div>
+				<h1>Registration Form</h1><br>
+				<FORM id="registerForm" NAME ="registerForm" METHOD ="POST" ACTION ="http://plato.cs.virginia.edu/~ams5da/ListenUp/php/register.php" onsubmit="return checkForm('register')">
+					Name: <INPUT TYPE = 'text' Name ='name' maxlength="50"><br><br>
+					Username: <INPUT TYPE = 'text' Name ='username' maxlength="50"><br><br>
+					Email: <INPUT TYPE = 'email' Name ='email' maxlength="50"><br><br>
+					Password: <INPUT TYPE = 'password' Name ='password' maxlength="50"><br><br>
+					<INPUT TYPE = "Submit" Name = "Submit"  VALUE = "Submit"><br><br>
+						<a href='#' onclick='overlay()'>Cancel</a>
+					</FORM>
+				</div>
+			</div>
+
+			<div class="wrap">
+				<div class="left-sidebar">
+					<div class="right-content-heading">
+						<div class="right-content-heading-left">
+							<h3>About</h3>
+						</div>
+						<div class="clear"> </div>
+					</div>
+					<div class="content-grids">
+						<div class="content-grid">
+							<h3>Welcome to Listen Up!</h3>
+						</div>
+						<div class="clear"> </div>
+
+					</div>
+
+				</div>
+				<div class="right-content">
+					<div class="right-content-heading">
+						<div class="right-content-heading-left">
+							<h3>Login</h3>
+						</div>
+						<div class="clear"> </div>
+					</div>
+					<div class="content-grids">
+						<div class="content-grid">
+							<FORM id="loginForm" NAME ="loginForm" METHOD ="POST" ACTION ="http://plato.cs.virginia.edu/~ams5da/ListenUp/php/login.php" onsubmit="return checkForm('login')">
+								<h3>Username:</h3> <INPUT TYPE = 'text' Name ='username' maxlength="50"><br><br>
+								<h3>Password:</h3> <INPUT TYPE = 'password' Name ='password' maxlength="50"><br><br>
+								<INPUT TYPE = "Submit" Name = "Submit"  VALUE = "Submit">
+								</FORM><br>
+								<h3><a href='#' onclick='overlay()'>Click here to register</a></h3>
+							</div>
+							<div class="clear"> </div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</body>
+		</html>
+

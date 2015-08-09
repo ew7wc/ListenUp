@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Listen Up! - Login</title>
+  <link rel="stylesheet" href="css/signin.css" media="screen" type="text/css" />
+  <!-- <link href='http://fonts.googleapis.com/css?family=Merienda:400,700' rel='stylesheet' type='text/css'> -->
+
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,800,700' rel='stylesheet' type='text/css'>
+   <link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+  <!--JQUERY stuff -->
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+  <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+  <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+  <script src="http://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <script>
+    $.ajax({
+      url: "http://plato.cs.virginia.edu/~ams5da/ListenUp/php/checkLogin.php",
+      async: false,
+      success: function(data){
+        if(data == "Login is Admin"){
+          window.location.href = "admin.html";
+        }
+        else if(data == "Login is User"){
+          window.location.href = "Home.html";
+        }
+      }
+    })
+    
+  </script>
+
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+  
+  <script>
+    function checkForm(input){
+      if(input == "register"){
+        var a = ["username", "name", "email", "password"];
+        var x = document.forms["registerForm"];
+      }
+      else if (input == "login"){
+        var a = ["username", "password"];
+        var x = document.forms["loginForm"];          
+      }
+
+      for(var i = 0; i < a.length; i++){
+        var field = a[i];
+        var value = x[field].value;
+        if(value == null || value == ""){
+          alert("All fields must be filled");
+          return false;
+        }
+        if(value.length <= 3){
+          alert("Please enter a value longer than 3 characters.");
+          return false;
+        }
+        if(value.indexOf("'") > -1 || value.indexOf("/") > -1 || value.indexOf(";") > -1 ||
+          value.indexOf("--") > -1 || value.indexOf("xp_") > -1 || value.indexOf("*") > -1){
+          alert("You may not use the following characters: ', /, ;, *, --, xp_");
+          return false;
+        }
+      }
+    }
+
+    function overlay() {
+      el = document.getElementById("overlay");
+      el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
+      document.getElementById("registerForm").reset();
+    }
+  </script>
+</head>
+ 
+  <body>
+
+    <div class="container" id="login-box">
+
+      <form class="form-signin" method="POST" action="http://plato.cs.virginia.edu/~ams5da/ListenUp/php/login.php" onsubmit="return checkForm('login')">
+        <h2 class="form-signin-heading">Login to your Listen Up! account:</h2>
+        <label for="inputEmail" class="sr-only">Username</label>
+        <input type="text" name="username" id="inputEmail" class="form-control" placeholder="Username" required autofocus>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <br>
+        <p>Not a member? <a href="javascript:;" onclick='overlay()'>Click here to register</a><span class="fontawesome-arrow-right"></span></p>
+      </form>
+
+    </div> <!-- /container -->
+
+    <div class="container" id="overlay">
+
+      <form class="form-signin" method="POST" action="http://plato.cs.virginia.edu/~ams5da/ListenUp/php/register.php" onsubmit="return checkForm('register')">
+        <h2 class="form-signin-heading">Register for a ListenUp! account:</h2>
+        <label for="inputEmail" class="sr-only">Full Name</label>
+        <input type="text" name="name" id="inputName" class="form-control" placeholder="Full Name" required autofocus>
+        <label for="inputEmail" class="sr-only">Email Address</label>
+        <input type="text" name="email" id="inputEmail" class="form-control" placeholder="Email Address" required autofocus>
+        <label for="inputEmail" class="sr-only">Username</label>
+        <input type="text" name="username" id="inputEmail" class="form-control" placeholder="Username" required autofocus>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
+        <br>
+        <center><a href="javascript:;" onClick='overlay()' class="btn-close">CANCEL</a></center>
+      </form>
+
+    </div>
+
+    <!-- <div id="overlay">
+        <div id = "login">
+          <h1>Registration Form</h1><br>
+          <FORM id="registerForm" NAME ="registerForm" METHOD ="POST" ACTION ="http://plato.cs.virginia.edu/~ams5da/ListenUp/php/register.php" onsubmit="return checkForm('register')">
+            <p><span><i class="fa fa-pencil-square-o"></i></span><INPUT TYPE = 'text' Name ='name' maxlength="50" placeholder="Full Name"></INPUT></p>
+            <p><span class="fontawesome-user"></span><INPUT TYPE = 'text' Name ='username' maxlength="50" placeholder="Username"></INPUT></p>
+            <p><span><i class="fa fa-envelope-o"></i></span><INPUT TYPE = 'email' Name ='email' maxlength="50" placeholder="Your_email@address.com"></INPUT></p>
+            <p><span class="fontawesome-lock"></span><INPUT TYPE = 'password' Name ='password' maxlength="50" placeholder= "Password"></INPUT></p><br>
+            <INPUT TYPE = "Submit" Name = "Submit"  VALUE = "Submit"></INPUT>
+            <a href="#" onClick='overlay()' class="btn-close">CANCEL</a>
+            <button><a href='#' onclick='overlay()'>Cancel</a></button>
+          </FORM>
+        </div>
+    </div> -->
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+  </body>

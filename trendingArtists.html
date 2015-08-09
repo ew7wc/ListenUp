@@ -1,0 +1,185 @@
+<!DOCTYPE HTML>
+<head>
+	<title>Trending Artists</title>
+	
+	<!--JQUERY stuff -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+	<script src="http://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+
+	<script src="js/jquery.rdio.js"></script>
+	<script src="js/token.js"></script>
+	<script src="js/player.js" script type="text/javascript"></script>
+
+
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,800,700' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+	<link href="css/iconStyling.css" rel="stylesheet" type="text/css"/>
+	<script>
+		$.ajax({
+			url: "http://plato.cs.virginia.edu/~ams5da/ListenUp/php/checkLogin.php",
+			async: false,
+			success: function(data){
+				if(data == "Login is Admin"){
+					window.location.href = "admin.html";
+				}
+				else if(data == "Not Logged In"){
+					window.location.href = "index.html";
+				}
+			}
+		})
+		
+	</script>
+
+	
+	<!--FAV ICON-->
+	<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+	<link rel="icon" href="images/favicon.ico" type="image/x-icon">	
+
+	<!--CSS -->
+	<link href="css/style.css" rel="stylesheet" type="text/css"  media="all" />
+	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="stylesheets/global.css">
+
+	
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+	<script>
+		$(document).ready(function() {
+			$.ajax({
+				url: "http://plato.cs.virginia.edu/~ams5da/ListenUp/php/getTrendingArtists.php",	
+				success: function(data){
+					console.log(data);
+					$('#displayArtists').html(data);
+				}
+			})
+		});
+	</script>
+	<script type = "text/javascript"> 
+		function display(sender, name, a_id, bio){
+			var song_id = sender.parentNode.getAttribute('id');
+			$('#api').rdio().play(song_id); 
+			$('#theArtistName').html("<h3 class = \"normText\">"  + name + "</h3>");
+			document.getElementById("artistArt").height = "200";
+			document.getElementById("artistArt").width = "200";
+			document.getElementById("artistArt").src= "images/" + a_id + ".jpg";
+
+			$('#bio').html(bio);
+		}
+
+	</script>
+</head>
+<body>
+	<!---start-wrap-->
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="Home.html">Welcome to Listen Up!</a>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li><a href="Home.html">Playlists</a></li>
+					<li><a href="likes.html">Liked Songs</a></li>
+					<li class="active"><a href="trendingArtists.html">Trending Artists<span class="sr-only">(current)</span></a></li>
+					
+				</ul>
+				<!-- <form class="navbar-form navbar-right" role="search">
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="Search for songs">
+					</div>
+					<button type="submit" class="btn btn-default">Enter</button>
+				</form> -->
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="http://plato.cs.virginia.edu/~ams5da/ListenUp/php/logout.php">Log Out</a></li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="#">Your Account</a></li>
+							<li><a href="#">Settings</a></li>
+							<li class="divider"></li>
+							<li><a href="#">FAQ</a></li>
+							<li><a href="#">About Listen Up!</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div><!-- /.navbar-collapse -->
+		</div><!-- /.container-fluid -->
+	</nav>
+	<br>
+	<br>
+	<br>
+	<div class="container">
+		<div class="row">
+			<!---start-content-->
+			<div class="col-md-4">
+
+				<h1 class="headers">Top 5 Trending Artists of the Month</h1>
+				
+				<ul>
+					<div class="song" id="displayArtists"></div>
+				</ul>
+
+				<h3 class = "normText"> CLICK TO SAMPLE THEIR TOP TRACKS AND LEARN MORE ABOUT THEM </h3>
+
+			</div>
+			<div class="col-md-4" align="center">
+
+				<h1 class="headers">Sample their Top Songs</h1>
+				<br>
+				<div id="api"></div>
+				<img id="art" src="images/default-album-artwork.png" height="200" width="200">
+				<div>
+					<span style="display:inline-block;width:200px;border:1px solid black;">
+						<span id="position" style="display:inline-block;background-color:rgb(222, 217, 210)">&nbsp;</span>
+					</span>
+				</div>
+				<div>
+					<div class="playControls btn-group">
+						<button id="previous" class="btn btn-default"><i class="fa fa-step-backward"></i> </button>
+						<button id="play" class="btn btn-default"><i class="fa fa-play"></i></button>
+              			<button id="next" class="btn btn-default"><i class="fa fa-step-forward"></i> </button>
+              			<button id="pause" class="btn btn-default"><i class="fa fa-pause"></i></button>
+						<button id="stop" class="btn btn-default"><i class="fa fa-stop"></i></button>
+					</div>
+					<h3 class="normText">TRACK: <span id="track"></span></h3>
+					<h3 class="normText">ALBUM: <span id="album"></span></h3>
+					<h3 class="normText">ARTIST: <span id="artist"></span></h3>
+					<br>
+
+					
+				</div>
+
+			</div>
+			<div class="col-md-4" align="center">
+				<h1 class="headers">Featured Artist</h1>
+				<div id="theArtistName"></div>
+				<img id="artistArt">
+				<h3 class ="normText"></h3>
+				<p class = "subtitle"><span id="bio"></span></p>
+			</div>
+		</div>
+	</div>
+
+</body>
+
+</html>
+

@@ -1,0 +1,276 @@
+
+<!DOCTYPE HTML>
+<head>
+	<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+	<link rel="icon" href="images/favicon.ico" type="image/x-icon">		
+	<title>Your Playlists</title>
+
+
+	<link href="css/style.css" rel="stylesheet" type="text/css"  media="all" />
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,800,700' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+
+	<!--JQUERY stuff -->
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+	<script src="http://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+
+	<script>
+		$.ajax({
+			url: "http://plato.cs.virginia.edu/~ams5da/ListenUp/php/checkLogin.php",
+			async: false,
+			success: function(data){
+				if(data == "Login is Admin"){
+					window.location.href = "admin.html";
+				}
+				else if(data == "Not Logged In"){
+					window.location.href = "index.html";
+				}
+			}
+		})
+
+	</script>
+
+	<style type="text/css">
+		.modal .modal-body {
+			overflow-y: auto;
+		}
+	</style>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			$.ajax({
+				url: "http://plato.cs.virginia.edu/~ams5da/ListenUp/php/getPlaylists.php",	
+				success: function(data){
+					$('#displayPlaylists').html(data);
+				}
+			})
+			$.ajax({
+				url: "http://plato.cs.virginia.edu/~ams5da/ListenUp/php/getYourCreatedPlaylists.php",	
+				success: function(data){
+					$('#displayYourCreatedPlaylists').html(data);
+				}
+			})
+			$('#playlistQuery').keypress(function(e){
+				if(e.keyCode==13)
+					$('#goPlaylists').click();
+			});
+			$('#newPlayName').keypress(function(e){
+				alert("new playlist!");
+				if(e.keyCode==13)
+					$('#createPlaylist').click();
+			});
+			$( "#newPlaylist" ).click(function() {
+			  $( "#input_box" ).toggle();
+			});
+		});
+		function play(playList_ID, p_name) {
+			localStorage.setItem("playlist_ID", playList_ID);
+			 //alert(playList_ID);
+			 localStorage.setItem("playlist_name", p_name);
+			 window.location = "http://plato.cs.virginia.edu/~ams5da/ListenUp/PlayMusic.html";
+		}
+		function editPlaylist(playlist_ID, p_name) {
+			//alert(p_name);
+			localStorage.setItem("playlist_ID_edit", playlist_ID);
+			localStorage.setItem("playlist_name_edit", p_name)
+			//alert(playlist_ID);
+			window.location = "http://plato.cs.virginia.edu/~ams5da/ListenUp/EditPlaylist.html";
+		}
+
+		function queryPlaylists() {
+			var queryStr = document.getElementById("playlistQuery").value;
+			//alert("You are searching for.. " + queryStr);
+			$.ajax({
+				url: "http://plato.cs.virginia.edu/~ams5da/ListenUp/php/searchForPlaylists.php",
+				data: {plQuery: queryStr},
+				success: function(data){
+					//alert(data);
+					$('#displayPlaylistSearchResults').html(data);
+				}
+			})
+		}
+
+		function subscribe(p_id, p_name) {
+			$.ajax({
+				url: "http://plato.cs.virginia.edu/~ams5da/ListenUp/php/subscribeToPlaylist.php",
+				type: "POST",
+				data: {playlistID: p_id, p_name: p_name},
+				success: function(data){
+					//alert(data);
+					$("#displayPlaylists").prepend(data);
+					
+				}
+			})
+			
+			
+			
+		}
+		function Unsubscribe(p_id) {
+			$.ajax({
+				url: "http://plato.cs.virginia.edu/~ams5da/ListenUp/php/unsubscribeFromPlaylist.php",
+				type: "POST",
+				data: {playlistID: p_id},
+				success: function(data){
+					//alert(data);
+					document.getElementById(p_id).remove();
+					
+				}
+			})
+		}
+		
+		function addField () {
+
+			var box = '<div class="input-group" style="width:85%;"><span class="input-group-addon" id="basic-addon1"><i class="fa fa-pencil"></i></span><input type="text" id="newPlayName" class="form-control" placeholder="New Playlist Name"><span class="input-group-btn"><button type="submit" onClick="createPlaylist()" class="btn btn-default">Create</button></span></div><br>';
+			document.getElementById('input_box').innerHTML = box;
+		}
+
+		function createPlaylist() {
+			var plName = document.getElementById("newPlayName").value;
+			$.ajax({
+				url: "http://plato.cs.virginia.edu/~ams5da/ListenUp/php/addPlaylist.php",
+				data: {p_name: plName},
+				success: function(data){
+					window.location.reload(true);
+				}
+			})
+		}
+	</script>
+
+	<div class="right-content-heading-left">
+		<title>Listen Up!</title>
+	</div>
+</head>
+<body>
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="Home.html">Welcome to Listen Up!</a>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="#">Playlists<span class="sr-only">(current)</span></a></li>
+					<li><a href="likes.html">Liked Songs</a></li>
+					<li><a href="trendingArtists.html">Trending Artists</a></li>
+					
+				</ul>
+				<!-- <form class="navbar-form navbar-right" role="search">
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="Search Songs & Artists">
+					</div>
+					<button type="submit" class="btn btn-default">Enter</button>
+				</form> -->
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="http://plato.cs.virginia.edu/~ams5da/ListenUp/php/logout.php">Log Out</a></li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="#">Your Account</a></li>
+							<li><a href="#">Settings</a></li>
+							<li class="divider"></li>
+							<li><a href="#">FAQ</a></li>
+							<li><a href="#">About Listen Up!</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div><!-- /.navbar-collapse -->
+		</div><!-- /.container-fluid -->
+	</nav>
+
+	<div class="row">
+		<div class="col-md-1"></div>
+		<div class="col-md-5">
+			<!-- <div class="right-content"> -->
+
+			<h1 class="headers">Your Playlists</h1>
+
+			<button id="newPlaylist" class="btn btn-default" onclick="addField()"><i class="fa fa-plus"></i> New Playlist</button>
+			<br><br>
+			<div id="input_box" style="display: none;"></div>
+
+			<br>
+			<div class="content-grids">
+				<div class="playlists" id="displayYourCreatedPlaylists"></div>
+				<div class="clear"> </div>
+			</div>
+			<!-- </div> -->
+		</div>
+
+		<div class="col-md-5">
+			<!-- <div class="right-content"> -->
+
+			<h1 class="headers">Subscribed Playlists</h1>	
+			<button id="editSubscribed" class="btn btn-default" data-toggle="modal" a href="#myModal" role="button"><i class="fa fa-search"></i> Find new playlists!</button>
+			<br>
+			<br>
+			<br>
+			<div class="content-grids">
+				<div class="playlists" id="displayPlaylists"></div>
+				<div class="clear"> </div>
+			</div>
+
+			<!-- </div> -->
+		</div>
+		<div class="bs-example">
+			<!-- Button HTML (to Trigger Modal) -->	    
+			<!-- Modal HTML -->
+			<div id="myModal" class="modal fade bs-example-modal-lg">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h2 class="modal-title">Discover New Music</h2>
+							<p>Search for playlists by name, only the top 8 matches appear.</p>
+							<div class="input-group">
+								<input type="text" id="playlistQuery" class="form-control" placeholder="Search for...">
+								<span class="input-group-btn">
+									<button id="goPlaylists" class="btn btn-default" type="button" onclick="queryPlaylists()">Go!</button>
+								</span>
+							</div>
+						</div>
+						<div class="modal-body">
+							<br>
+							<div class="content-grids">
+								<div class="playlists" id="displayPlaylistSearchResults"></div>
+								<div class="clear"> </div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-1"></div>
+	</div>
+
+
+
+	<div class="alert alert-success fade">
+		<button type="button" class="close" data-dismiss="success">×</button>
+		<strong>Alert!</strong> You have unsubscribed!
+	</div>
+
+
+
+
+</body>
+</html>
+
